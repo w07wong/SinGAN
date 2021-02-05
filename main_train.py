@@ -5,6 +5,10 @@ import SinGAN.functions as functions
 
 
 if __name__ == '__main__':
+    import os
+    cpu_cores = [i for i in range(8, 9)] # Cores (numbered 0-11)
+    os.system("taskset -pc {} {}".format(",".join(str(i) for i in cpu_cores), os.getpid()))
+
     parser = get_arguments()
     parser.add_argument('--input_dir', help='input image dir', default='Input/Images')
     parser.add_argument('--input_name', help='input image name', required=True)
