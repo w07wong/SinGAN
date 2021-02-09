@@ -306,16 +306,19 @@ def train_paint(opt,Gs,Zs,reals,NoiseAmp,centers,paint_inject_scale):
 def init_models(opt):
 
     #generator initialization:
-    netG = torch.nn.DataParallel(models.GeneratorConcatSkip2CleanAdd(opt), device_ids=[0])
-    # netG = models.GeneratorConcatSkip2CleanAdd(opt).to(opt.device)
+    os.environ["CUDA_VISIBLE_DEVICES"] = "6, 7"
+    netG = torch.nn.DataParallel(models.GeneratorConcatSkip2CleanAdd(opt), device_ids=[0, 1])
+    netG.to(torch.device("cuda"))
+    #netG = models.GeneratorConcatSkip2CleanAdd(opt).to(opt.device)
     netG.apply(models.weights_init)
     if opt.netG != '':
         netG.load_state_dict(torch.load(opt.netG))
     print(netG)
 
     #discriminator initialization:
-    netD = torch.nn.DataParallel(models.WDiscriminator(opt), device_ids=[0])
-    # netD = models.WDiscriminator(opt).to(opt.device)
+    netD = torch.nn.DataParallel(models.WDiscriminator(opt), device_ids=[0, 1])
+    netD.to(torch.device("cuda"))
+    #netD = models.WDiscriminator(opt).to(opt.device)
     netD.apply(models.weights_init)
     if opt.netD != '':
         netD.load_state_dict(torch.load(opt.netD))

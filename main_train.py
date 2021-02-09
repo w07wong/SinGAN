@@ -6,7 +6,7 @@ import SinGAN.functions as functions
 
 if __name__ == '__main__':
     import os
-    cpu_cores = [i for i in range(8, 9)] # Cores (numbered 0-11)
+    cpu_cores = [i for i in range(55, 60)] # Cores (numbered 0-11)
     os.system("taskset -pc {} {}".format(",".join(str(i) for i in cpu_cores), os.getpid()))
 
     parser = get_arguments()
